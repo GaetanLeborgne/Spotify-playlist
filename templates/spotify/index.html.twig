@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello SpotifyController!{% endblock %}
+
+{% block body %}
+
+    <article>
+        <header> 
+            <h1>Your top playlist is updated in Spotify</h1>
+        </header>
+        <h3>THIS IS YOUR NEW PLAYLIST:</h3>
+        <ul>
+            {% for item in tracks.items %}
+                <li>
+                    {% if item.track.album is defined and item.track.album.images[0] is defined %}
+                        <img src="{{ item.track.album.images[0].url }}" alt="Track Image" class="track-image">
+                    {% endif %}
+                    {{ item.track.name }} - {{ item.track.artists[0].name }}
+                </li>
+            {% endfor %}
+        </ul>
+    </article>
+
+    <style>
+        .track-image {
+            width: 100px;
+            height: 100px;
+        }
+    </style>
+
+{% endblock %}
