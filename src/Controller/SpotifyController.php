@@ -30,16 +30,18 @@ class SpotifyController extends AbstractController
 
         $this->api->setAccessToken($this->cache->getItem('spotify_access_token')->get());
 
-        $top50 = $this->api->getMyTop('tracks', [
-            'limit' => 50,
+        // dd($this->api->getMyPlaylists());
+
+        $top30 = $this->api->getMyTop('tracks', [
+            'limit' => 30,
             'time_range' => 'short_term',
         ]);
 
-        $top50TracksIds = array_map(fn($track) => $track->id, $top50->items);
+        $top30TracksIds = array_map(fn($track) => $track->id, $top30->items);
 
         $playlistID = $this-> getParameter('SPOTIFY_PLAYLIST_ID');
 
-        $this->api->replacePlaylistTracks($playlistID, $top50TracksIds);
+        $this->api->replacePlaylistTracks($playlistID, $top30TracksIds);
 
         return $this->render('spotify/index.html.twig', [
             'tracks' => $this->api->getPlaylistTracks($playlistID),
